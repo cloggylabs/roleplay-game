@@ -229,6 +229,36 @@ button:active {
   box-shadow: 0 0 10px rgba(255, 65, 108, 0.8);
 }
 
+#healthBarsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.health-bar-row {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.health-bar-row .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(255, 65, 108, 0.8);
+}
+
+.health-bar-row.extra-bar .progress-fill {
+  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+}
+
 .monster-health-bar {
   background: linear-gradient(90deg, #8b0000, #ff0000);
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
@@ -332,29 +362,64 @@ button:active {
   gap: 10px;
 }
 
+/* Mobile and Tablet Responsive Design */
+@media (max-width: 1024px) {
+  body {
+    padding: 15px;
+  }
+
+  #game {
+    padding: 25px;
+  }
+
+  #gameContent {
+    gap: 15px;
+  }
+}
+
 @media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
   #game {
     padding: 20px;
+    border-radius: 15px;
   }
 
   .game-title {
     font-size: 28px;
+    margin-bottom: 20px;
   }
 
   #stats {
     flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .stat {
+    padding: 12px;
+  }
+
+  .stat strong {
+    font-size: 22px;
   }
 
   #gameContent {
     flex-direction: column;
+    gap: 15px;
   }
 
   #controls {
     flex-direction: column;
+    gap: 12px;
   }
 
   button {
     min-width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
   }
 
   .character-icon {
@@ -368,5 +433,109 @@ button:active {
   .monster-display {
     flex-direction: column;
     text-align: center;
+  }
+
+  #text {
+    font-size: 16px;
+    padding: 20px;
+    min-height: 120px;
+  }
+
+  #monsterStats {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+
+  #game {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .game-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  #stats {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .stat {
+    padding: 10px;
+  }
+
+  .stat strong {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  button {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .character-icon {
+    font-size: 50px;
+  }
+
+  .monster-icon {
+    font-size: 60px;
+  }
+
+  #text {
+    font-size: 15px;
+    padding: 15px;
+    min-height: 100px;
+    line-height: 1.5;
+  }
+
+  #inventoryDisplay h3 {
+    font-size: 14px;
+  }
+
+  .weapon-item {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  #monsterStats {
+    padding: 12px;
+  }
+
+  .progress-bar {
+    height: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  #game {
+    padding: 12px;
+  }
+
+  .game-title {
+    font-size: 20px;
+  }
+
+  .stat strong {
+    font-size: 18px;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+
+  #text {
+    font-size: 14px;
+    padding: 12px;
   }
 }

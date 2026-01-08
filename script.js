@@ -16,7 +16,7 @@ const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
-const healthBar = document.querySelector("#healthBar");
+const healthBarsContainer = document.querySelector("#healthBarsContainer");
 const xpBar = document.querySelector("#xpBar");
 const monsterHealthBar = document.querySelector("#monsterHealthBar");
 const weaponsList = document.querySelector("#weaponsList");
@@ -105,8 +105,42 @@ button3.onclick = fightDragon;
 
 // Helper functions for UI updates
 function updateHealthBar() {
-  const healthPercentage = Math.max(0, (health / 100) * 100);
-  healthBar.style.width = healthPercentage + "%";
+  // Calculate how many 100-health bars we need
+  const numberOfBars = Math.ceil(health / 100);
+  const maxBars = Math.max(1, numberOfBars);
+
+  // Clear existing bars
+  healthBarsContainer.innerHTML = "";
+
+  // Create health bars
+  for (let i = 0; i < maxBars; i++) {
+    const barDiv = document.createElement("div");
+    barDiv.className = "health-bar-row";
+
+    // Add extra-bar class for bars beyond the first one
+    if (i > 0) {
+      barDiv.classList.add("extra-bar");
+    }
+
+    const fillDiv = document.createElement("div");
+    fillDiv.className = "progress-fill";
+
+    // Calculate the fill percentage for this bar
+    const healthForThisBar = health - (i * 100);
+    let fillPercentage;
+
+    if (healthForThisBar >= 100) {
+      fillPercentage = 100;
+    } else if (healthForThisBar > 0) {
+      fillPercentage = healthForThisBar;
+    } else {
+      fillPercentage = 0;
+    }
+
+    fillDiv.style.width = fillPercentage + "%";
+    barDiv.appendChild(fillDiv);
+    healthBarsContainer.appendChild(barDiv);
+  }
 }
 
 function updateXPBar() {
@@ -134,8 +168,9 @@ function updateInventoryDisplay() {
   });
 }
 
-// Initialize inventory display
+// Initialize inventory display and health bar
 updateInventoryDisplay();
+updateHealthBar();
 
 function update(location) {
   monsterStats.style.display = "none";
