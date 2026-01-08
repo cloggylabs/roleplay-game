@@ -16,27 +16,35 @@ const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
+const healthBar = document.querySelector("#healthBar");
+const xpBar = document.querySelector("#xpBar");
+const monsterHealthBar = document.querySelector("#monsterHealthBar");
+const weaponsList = document.querySelector("#weaponsList");
+const monsterIcon = document.querySelector("#monsterIcon");
 const weapons = [
-  { name: 'stick', power: 5 },
-  { name: 'dagger', power: 30 },
-  { name: 'claw hammer', power: 50 },
-  { name: 'sword', power: 100 }
+  { name: 'stick', power: 5, icon: '🪵' },
+  { name: 'dagger', power: 30, icon: '🗡️' },
+  { name: 'claw hammer', power: 50, icon: '🔨' },
+  { name: 'sword', power: 100, icon: '⚔️' }
 ];
 const monsters = [
   {
     name: "slime",
     level: 2,
-    health: 15
+    health: 15,
+    icon: "💧"
   },
   {
     name: "fanged beast",
     level: 8,
-    health: 60
+    health: 60,
+    icon: "🐺"
   },
   {
     name: "dragon",
     level: 20,
-    health: 300
+    health: 300,
+    icon: "🐉"
   }
 ]
 const locations = [
@@ -95,6 +103,40 @@ button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
 
+// Helper functions for UI updates
+function updateHealthBar() {
+  const healthPercentage = Math.max(0, (health / 100) * 100);
+  healthBar.style.width = healthPercentage + "%";
+}
+
+function updateXPBar() {
+  const xpPercentage = Math.min(100, (xp / 100) * 100);
+  xpBar.style.width = xpPercentage + "%";
+}
+
+function updateMonsterHealthBar() {
+  const maxHealth = monsters[fighting].health;
+  const healthPercentage = Math.max(0, (monsterHealth / maxHealth) * 100);
+  monsterHealthBar.style.width = healthPercentage + "%";
+}
+
+function updateInventoryDisplay() {
+  weaponsList.innerHTML = "";
+  inventory.forEach((weaponName, index) => {
+    const weaponData = weapons.find(w => w.name === weaponName);
+    const weaponDiv = document.createElement("div");
+    weaponDiv.className = "weapon-item";
+    if (index === inventory.length - 1) {
+      weaponDiv.classList.add("active");
+    }
+    weaponDiv.innerHTML = `${weaponData.icon} ${weaponName}`;
+    weaponsList.appendChild(weaponDiv);
+  });
+}
+
+// Initialize inventory display
+updateInventoryDisplay();
+
 function update(location) {
   monsterStats.style.display = "none";
   button1.innerText = location["button text"][0];
@@ -124,6 +166,7 @@ function buyHealth() {
     health += 10;
     goldText.innerText = gold;
     healthText.innerText = health;
+    updateHealthBar();
   } else {
     text.innerText = "You do not have enough gold to buy health.";
   }
@@ -139,6 +182,7 @@ function buyWeapon() {
       text.innerText = "You now have a " + newWeapon + ".";
       inventory.push(newWeapon);
       text.innerText += " In your inventory you have: " + inventory;
+      updateInventoryDisplay();
     } else {
       text.innerText = "You do not have enough gold to buy a weapon.";
     }
@@ -156,6 +200,7 @@ function sellWeapon() {
     let currentWeapon = inventory.shift();
     text.innerText = "You sold a " + currentWeapon + ".";
     text.innerText += " In your inventory you have: " + inventory;
+    updateInventoryDisplay();
   } else {
     text.innerText = "Don't sell your only weapon!";
   }
@@ -182,6 +227,8 @@ function goFight() {
   monsterStats.style.display = "block";
   monsterName.innerText = monsters[fighting].name;
   monsterHealthText.innerText = monsterHealth;
+  monsterIcon.innerText = monsters[fighting].icon;
+  updateMonsterHealthBar();
 }
 
 function attack() {
@@ -189,12 +236,14 @@ function attack() {
   text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
   health -= getMonsterAttackValue(monsters[fighting].level);
   if (isMonsterHit()) {
-    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;    
+    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
   } else {
     text.innerText += " You miss.";
   }
   healthText.innerText = health;
   monsterHealthText.innerText = monsterHealth;
+  updateHealthBar();
+  updateMonsterHealthBar();
   if (health <= 0) {
     lose();
   } else if (monsterHealth <= 0) {
@@ -207,6 +256,7 @@ function attack() {
   if (Math.random() <= .1 && inventory.length !== 1) {
     text.innerText += " Your " + inventory.pop() + " breaks.";
     currentWeapon--;
+    updateInventoryDisplay();
   }
 }
 
@@ -229,6 +279,7 @@ function defeatMonster() {
   xp += monsters[fighting].level;
   goldText.innerText = gold;
   xpText.innerText = xp;
+  updateXPBar();
   update(locations[4]);
 }
 
@@ -249,6 +300,9 @@ function restart() {
   goldText.innerText = gold;
   healthText.innerText = health;
   xpText.innerText = xp;
+  updateHealthBar();
+  updateXPBar();
+  updateInventoryDisplay();
   goTown();
 }
 
@@ -281,6 +335,7 @@ function pick(guess) {
     text.innerText += "Wrong! You lose 10 health!";
     health -= 10;
     healthText.innerText = health;
+    updateHealthBar();
     if (health <= 0) {
       lose();
     }
