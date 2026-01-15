@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>RPG - Dragon Repeller</title>
   </head>
   <body>
     <div id="game">
-      <h1 class="game-title">🐉 Dragon Repeller</h1>
+      <div class="game-title logo-title">
+        <img src="assets/game-logo.png" alt="Dragon Repeller Logo" >
+      </div>
 
       <div id="stats">
         <div class="stat">
@@ -31,10 +33,11 @@
 
       <div id="gameContent">
         <div id="characterSection">
-          <div class="character-display">
-            <div class="character-icon">🧙‍♂️</div>
+          <div class="character-display" id="heroCard">
+            <div class="hero-image"></div>
+
             <div id="inventoryDisplay">
-              <h3>🎒 Inventory</h3>
+              <h3> Inventory</h3>
               <div id="weaponsList"></div>
             </div>
           </div>
@@ -42,34 +45,36 @@
 
         <div id="battleSection">
           <div id="monsterStats">
-            <div class="monster-display">
-              <div id="monsterIcon" class="monster-icon">👹</div>
-              <div class="monster-info">
-                <span class="stat">
-                  <span class="stat-label">Monster</span>
-                  <strong><span id="monsterName"></span></strong>
-                </span>
-                <span class="stat">
-                  <span class="stat-label">Health</span>
-                  <strong><span id="monsterHealth"></span></strong>
-                  <div class="progress-bar">
-                    <div id="monsterHealthBar" class="progress-fill monster-health-bar" style="width: 100%"></div>
-                  </div>
-                </span>
+            <div class="monster-display" id="monsterCard">
+              <div class="monster-image"></div>
+
+              <div class="monster-info-overlay compact">
+                <div id="monsterName" class="monster-name"></div>
+
+                <div class="progress-bar monster-bar">
+                  <div
+                    id="monsterHealthBar"
+                    class="progress-fill monster-health-bar"
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="text">
-        Welcome to Dragon Repeller. You must defeat the dragon that is preventing people from leaving the town. You are in the town square. Where do you want to go? Use the buttons below.
-      </div>
+      <div id="info-and-controls">
+        <div id="text">
+          Welcome to Dragon Repeller. You must defeat the dragon that is
+          preventing people from leaving the town. You are in the town square.
+          Where do you want to go? Use the buttons below.
+        </div>
 
-      <div id="controls">
-        <button id="button1">Go to store</button>
-        <button id="button2">Go to cave</button>
-        <button id="button3">Fight dragon</button>
+        <div id="controls">
+          <button id="button1">Go to store</button>
+          <button id="button2">Go to cave</button>
+          <button id="button3">Fight dragon</button>
+        </div>
       </div>
     </div>
     <script src="./script.js"></script>
