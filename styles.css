@@ -36,15 +36,15 @@ body::before {
 }
 
 body.location-town {
-  background-image: url("../assets/bg-town.jpg");
+  background-image: url("./assets/bg-town.jpg");
 }
 
 body.location-cave {
-  background-image: url("../assets/bg-cave.jpg");
+  background-image: url("./assets/bg-cave.jpg");
 }
 
 body.location-dragon {
-  background-image: url("../assets/bg-dragon.jpg");
+  background-image: url("./assets/bg-dragon.jpg");
 }
 
 #game {
